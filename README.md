@@ -11,3 +11,24 @@ The API is [documented here](http://rest.vsemayki.ru/doc/index.html).
 ## Installation
 
 `composer require vsemayki/restapi`
+
+## Example
+
+```
+#!php
+
+require 'vendor/autoload.php';
+
+$rest = new VseMayki\RestConnector($clientId, $clientSecret);
+
+$result = $rest->sendRequest(
+    '/order/options',
+    [
+        'user_id'             => 0,
+        'cart'                => [],
+        'address'             => [],
+        'isMergePickupPoints' => true
+    ],
+    'POST');
+
+```
