@@ -1,0 +1,9 @@
+{
+  "name": "vsemayki/restapi",
+  "require": {
+    "php": ">=5.5.0"
+  },
+  "autoload": {
+    "VseMayki\\": "src"
+  }
+}
