@@ -14,8 +14,7 @@ The API is [documented here](http://rest.vsemayki.ru/doc/index.html).
 
 ## Example
 
-```
-#!php
+```php
 
 require 'vendor/autoload.php';
 
