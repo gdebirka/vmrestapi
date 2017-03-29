@@ -1,9 +1,12 @@
 {
   "name": "vsemayki/restapi",
+  "type": "library",
+  "keywords": ["rest", "api", "vsemayki"],
   "require": {
-    "php": ">=5.5.0"
+    "php": ">=5.5.0",
+    "guzzlehttp/guzzle": "^6.2"
   },
   "autoload": {
-    "VseMayki\\": "src"
+    "VseMayki\\": "src/"
   }
 }
