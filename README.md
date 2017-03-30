@@ -5,7 +5,8 @@ The API is [documented here](http://rest.vsemayki.ru/doc/index.html).
  
 ## Requirements
  
- - PHP 5.5.0 or greater
+ - PHP 5.6.0 or greater
+ - Guzzle 6.2 or greater
  - [Composer](https://getcomposer.org/)
  
 ## Installation
@@ -23,7 +24,7 @@ $rest = new VseMayki\RestConnector($clientId, $clientSecret);
 $result = $rest->sendRequest(
     '/order/options',
     [
-        'user_id'             => 0,
+        'userId'              => 0,
         'cart'                => [],
         'address'             => [],
         'isMergePickupPoints' => true
