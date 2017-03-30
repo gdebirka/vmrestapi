@@ -1,19 +1,20 @@
 <?php
+
 namespace VseMayki;
 
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Client as Guzzle;
+
 /**
  * Class RestConnector
  */
 class RestConnector
 {
-//    private $url = 'http://rest.vsemayki.ru';
-    private $url = 'http://rest.staging.vsemayki.com';
+    private $url = 'http://rest.vsemayki.ru';
     private $clientId;
     private $clientSecret;
 
-    public static $token;
+    public $token = false;
 
     public function __construct($clientId, $clientSecret)
     {
@@ -58,20 +59,21 @@ class RestConnector
             $options = [];
             $client  = new Guzzle(['base_uri' => $this->url]);
 
+            if ($token) {
+                $options = ['query' => ['access-token' => $token]];
+            }
+
             switch ($method) {
                 case 'POST':
-                    if ($token) {
-                        $options = ['query' => ['access-token' => $token]];
-                    }
                     $options = array_merge($options, ['form_params' => $params]);
                     break;
                 case 'GET':
-                    $options = ['form_params' => $params];
+                    $options = ['query' => array_merge($options['query'], $params)];
                     break;
             }
 
             $requestResult = $client->request($method, $url, $options);
-            $result = [
+            $result        = [
                 'code' => $requestResult->getStatusCode(),
                 'body' => json_decode($requestResult->getBody()),
             ];
@@ -90,7 +92,7 @@ class RestConnector
      */
     public function getToken()
     {
-        return (static::$token) ?: $this->updateToken();
+        return ($this->token) ?: $this->updateToken();
     }
 
     /**
@@ -98,17 +100,17 @@ class RestConnector
      */
     public function updateToken()
     {
-        static::$token = false;
-        $result        = $this->makeRequest('/oauth2/token', [
+        $this->token = false;
+        $result      = $this->makeRequest('/oauth2/token', [
             'client_id'     => $this->clientId,
             'client_secret' => $this->clientSecret,
             'grant_type'    => 'client_credentials'
         ], 'POST');
 
-        if (!empty($result->access_token)) {
-            static::$token = $result->access_token;
+        if (!empty($result['body']->access_token)) {
+            $this->token = $result['body']->access_token;
         }
 
-        return static::$token;
+        return $this->token;
     }
 }
