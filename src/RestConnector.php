@@ -65,9 +65,11 @@ class RestConnector
 
             switch ($method) {
                 case 'POST':
+                case 'PUT':
                     $options = array_merge($options, ['form_params' => $params]);
                     break;
                 case 'GET':
+                case 'DELETE':
                     $options = ['query' => array_merge($options['query'], $params)];
                     break;
             }
@@ -100,16 +102,13 @@ class RestConnector
      */
     public function updateToken()
     {
-        $this->token = false;
-        $result      = $this->makeRequest('/oauth2/token', [
+        $result = $this->makeRequest('/oauth2/token', [
             'client_id'     => $this->clientId,
             'client_secret' => $this->clientSecret,
             'grant_type'    => 'client_credentials'
         ], 'POST');
 
-        if (!empty($result['body']->access_token)) {
-            $this->token = $result['body']->access_token;
-        }
+        $this->token = $result['body']->access_token;
 
         return $this->token;
     }
