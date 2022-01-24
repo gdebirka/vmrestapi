@@ -1,0 +1,4 @@
+		$get_data=$rest->sendRequest('/catalog/tags', [], 'GET');
+		$get_data=json_decode(json_encode($get_data), true);
+		foreach($get_data as $res){
+    }
